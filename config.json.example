@@ -1,0 +1,26 @@
+{
+   "gpio_send":22,
+   "gpio_rece":27,
+   "outlet":{
+      "A":{
+         "name":"Place 1",
+         "enable":1111,
+         "disable":2222
+      },
+      "B":{
+         "name":"Place 2",
+         "enable":3333,
+         "disable":4444
+      },
+      "C":{
+         "name":"Place 3",
+         "enable":5555,
+         "disable":6666
+      },
+      "D":{
+         "name":"Place 4",
+         "enable":7777,
+         "disable":8888
+      }
+   }
+}
