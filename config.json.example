@@ -1,26 +1,67 @@
 {
    "gpio_send":22,
-   "gpio_rece":27,
-   "outlet":{
+   "gpio_receive":27,
+   "radio":{
+      "pulselength":350,
+      "protocol":1,
+      "codelength":24,
+      "repeats":10
+   },
+   "outlets":{
       "A":{
-         "name":"Place 1",
-         "enable":1111,
-         "disable":2222
+         "name":"Terasse",
+         "code_on":1361,
+         "code_off":1364,
+         "operations":{
+            "1":{
+               "type":"time",
+               "on":1650,
+               "off":1655
+            }
+         }
       },
       "B":{
-         "name":"Place 2",
-         "enable":3333,
-         "disable":4444
+         "name":"Schuppen",
+         "code_on":4433,
+         "code_off":4436,
+         "operations":{
+            "1":{
+               "type":"time",
+               "on":1650,
+               "off":1655
+            }
+         }
       },
       "C":{
-         "name":"Place 3",
-         "enable":5555,
-         "disable":6666
+         "name":"linke Steckdose",
+         "code_on":5201,
+         "code_off":5204,
+         "operations":{
+            "1":{
+               "type":"time",
+               "on":1650,
+               "off":1655
+            }
+         }
       },
       "D":{
-         "name":"Place 4",
-         "enable":7777,
-         "disable":8888
+         "name":"rechte Steckdose",
+         "code_on":5393,
+         "code_off":5396,
+         "operations":{
+            "1":{
+               "type":"time",
+               "on":1650,
+               "off":1655
+            },
+            "2":{
+               "type":"calculate",
+               "on":"sunset;+0",
+               "off":"sunset;+60"
+            }
+         }
       }
-   }
+   },
+   "openweatherlocation":"zip=23569,de",
+   "openweatherapikey":""
 }

@@ -11,7 +11,6 @@ Prepare your System
 sudo apt-get install python3-pip
 pip3 install rpi-rf
 cd /opt
-sudo git clone https://github.com/milaq/rpi-rf
 sudo git clone https://github.com/Starwhooper/RPi-outlet433
 ```
 
