@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # Creator: Thiemo Schuff, thiemo@schuff.eu
-# Source: https://github.com/Starwhooper/RPi-outlet433
+# Source: https://github.com/Starwhooper/RPi-433outlets
+# <!--get awesomefonts from here: https://fontawesome.com/v5.15/icons/cloud-sun?style=solid //-->
 
 ##### import config.json
 
@@ -17,6 +18,9 @@ def hourmin (timestamp,extramin=0):
  timestamp = timestamp + (extramin * 60)
  hm = int(datetime.utcfromtimestamp(timestamp).strftime('%H%M'))
  return(hm)
+
+def return_date(): return(datetime.date.today().strftime('%d. %b. \'%y'))
+def return_time(): return(time.strftime('%H:%M', time.localtime()))
 
 try:
  with open(codefolder + '/config.json','r') as file:
@@ -45,10 +49,30 @@ sunset_hm = int(hourmin(sunset))
 now = int(datetime.now().timestamp())
 now_hm = int(hourmin(datetime.now().timestamp()))
 
+try: htmlfile = open(cf["htmloutput"]["file"],'w')
+except: print('file ' + cf["htmloutput"]["file"] + ' not aviable or permission missed')
 
-print("sunrise: " + str(sunrise_hm) + " " + str(sunrise))
-print("sunset:  " + str(sunset_hm)  + " " + str(sunset))
-print("now:     " + str(now_hm)     + " " + str(now))
+
+htmlstring = '<!DOCTYPE HTML><html>\n'
+htmlstring += '<head>\n'
+htmlstring += '<title>outlets</title>\n'
+htmlstring += '<meta charset="utf-8"/>\n'
+htmlstring += '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+htmlstring += '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">\n'
+htmlstring += '<style>\n'
+
+try: htmlstring += open(parent_dir + '/style.css','r').read()
+except: htmlstring += '<!-- NO STYLE.CSS FOUND //-->\n'
+
+htmlstring += '</style>\n'
+
+htmlstring += '</head>\n'
+htmlstring += '<body>\n'
+htmlstring += '<h1><i class="fas fa-power-off" style="color:black"></i> Outlets</h1>\n'
+
+htmlstring += '<p>sunrise: <i class="far fa-sun"></i>' + str(sunrise_hm) + ' ' + str(sunrise) + '</p>';
+htmlstring += '<p>sunset: <i class="far fa-moon"></i>' + str(sunset_hm) + ' ' + str(sunset) + '</p>';
+htmlstring += '<p>now: <i class="far fa-clock"></i>' + str(now_hm) + ' ' + str(now) + '</p>';
 
 for outlet in cf['outlets']:
  switch = 'off'
@@ -69,7 +93,13 @@ for outlet in cf['outlets']:
    if moment_off[0] == 'sunrise': operation_off = hourmin(sunrise,int(moment_off[1]))
 
   print(str(operation_on) + ' - ' + str(operation_off) + ' ' + operation_type)
+  htmlstring += '<p>' + str(operation_on) + ' - ' + str(operation_off) + ' ' + operation_type + '</p>'
   if now_hm >= operation_on and now_hm < operation_off: switch = 'on'
  command = codefolder + '/outlet.py ' + outlet + ' ' + switch
  os.system(command)
  print(command + ': ' + cf['outlets'][outlet]['name'] + ' ' + switch)
+ htmlstring += '<p>' + cf['outlets'][outlet]['name'] + ' ' + switch + '</p>'
+ htmlstring += '</body></html>'
+
+htmlfile.write(htmlstring)
+htmlfile.close
