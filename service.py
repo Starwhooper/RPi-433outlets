@@ -61,7 +61,8 @@ htmlstring += '<meta name="viewport" content="width=device-width, initial-scale=
 htmlstring += '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">\n'
 htmlstring += '<style>\n'
 
-try: htmlstring += open(parent_dir + '/style.css','r').read()
+#print (parent_dir + '/house.css')
+try: htmlstring += open('/var/www/html/house.css','r').read()
 except: htmlstring += '<!-- NO STYLE.CSS FOUND //-->\n'
 
 htmlstring += '</style>\n'
@@ -70,11 +71,19 @@ htmlstring += '</head>\n'
 htmlstring += '<body>\n'
 htmlstring += '<h1><i class="fas fa-power-off" style="color:black"></i> Outlets</h1>\n'
 
-htmlstring += '<p>sunrise: <i class="far fa-sun"></i>' + str(sunrise_hm) + ' ' + str(sunrise) + '</p>';
-htmlstring += '<p>sunset: <i class="far fa-moon"></i>' + str(sunset_hm) + ' ' + str(sunset) + '</p>';
-htmlstring += '<p>now: <i class="far fa-clock"></i>' + str(now_hm) + ' ' + str(now) + '</p>';
+htmlstring += '<h2>Environment</h2>\n'
+htmlstring += '<p>sunrise: <i class="far fa-sun"></i> ' + str(sunrise_hm)[0:-2] + ':' + str(sunrise_hm)[2:] + ' ' + str(sunrise) + '</p>';
+htmlstring += '<p>sunset: <i class="far fa-moon"></i> ' + str(sunset_hm)[0:-2] + ':' + str(sunset_hm)[2:] + ' ' + str(sunset) + '</p>';
+htmlstring += '<p>now: <i class="far fa-clock"></i> ' + str(now_hm)[0:-2] + ':' + str(now_hm)[2:] + ' ' + str(now) + '</p>';
+
+htmlstring += '<h2>Outlets</h2>\n'
+htmlstring += '<table><tr><th>outlet</th><th>settings</th><th>status</th></tr>'
 
 for outlet in cf['outlets']:
+ 
+ htmlstring += '<tr><td>'+ cf['outlets'][outlet]['name'] + '</td><td style="text-align: left">'
+ 
+ 
  switch = 'off'
  for operation in cf['outlets'][outlet]['operations']:
   
@@ -93,13 +102,16 @@ for outlet in cf['outlets']:
    if moment_off[0] == 'sunrise': operation_off = hourmin(sunrise,int(moment_off[1]))
 
   print(str(operation_on) + ' - ' + str(operation_off) + ' ' + operation_type)
-  htmlstring += '<p>' + str(operation_on) + ' - ' + str(operation_off) + ' ' + operation_type + '</p>'
+  htmlstring += str(operation_on) + ' - ' + str(operation_off) + ' ' + operation_type + '<br/>'
   if now_hm >= operation_on and now_hm < operation_off: switch = 'on'
- command = codefolder + '/outlet.py ' + outlet + ' ' + switch
+  command = codefolder + '/outlet.py ' + outlet + ' ' + switch
  os.system(command)
  print(command + ': ' + cf['outlets'][outlet]['name'] + ' ' + switch)
- htmlstring += '<p>' + cf['outlets'][outlet]['name'] + ' ' + switch + '</p>'
- htmlstring += '</body></html>'
+ if switch == 'on': htmlstring += '</td><td><i class="fas fa-lightbulb" style="color:yellow"></i></td></tr>'
+ if switch == 'off': htmlstring += '</td><td><i class="far fa-lightbulb" style="color:gray"></i></td></tr>'
+
+htmlstring += '</table>'
+htmlstring += '</body></html>'
 
 htmlfile.write(htmlstring)
 htmlfile.close
