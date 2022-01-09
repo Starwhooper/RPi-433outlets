@@ -1,8 +1,11 @@
-RPi-backup
+Check out new solution: https://github.com/Starwhooper/RPi-scheduler
+
+
+RPi-433outlets
 ==========
 
 * Creator: Thiemo Schuff, thiemo@schuff.eu
-* Source: https://github.com/Starwhooper/RPi-outlet433
+* Source: https://github.com/Starwhooper/RPi-433outlets
 * License: CC-BY-SA-4.0
 
 Prepare your System
@@ -35,11 +38,11 @@ Change in config.json:
 Start direct
 -----
 ```bash
-/opt/RPi-out433/outlet.py A on
+/opt/RPi-outlets433/outlet.py A on
 ```
 
 Start service
 -----
 ```bash
-/opt/RPi-out433/service.py
+/opt/RPi-outlets433/service.py
 ```
