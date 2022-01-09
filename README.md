@@ -12,18 +12,13 @@ sudo apt-get install python3-pip
 pip3 install rpi-rf
 cd /opt
 sudo git clone https://github.com/Starwhooper/RPi-433outlets
-sudo chmod +x /opt/RPi-433outlets/*.py
-sudo mkdir -p /opt/RPi-433outlets/cache
-sudo chmod 777 /opt/RPi-433outlets/cache
-sudo touch /var/www/html/outlets.html
-sudo chmod 777 /var/www/html/outlets.html
 ```
 
 First configurtion
 ------------------
 ```bash
-cp /opt/RPi-433outlets/config.json.example /opt/RPi-433outlets/config.json
-sudo nano /opt/RPi-433outlets/config.json
+copy /opt/RPi-outlet433/config.json.example /opt/RPi-outlet433/config.json
+sudo nano /opt/RPi-outlet433/config.json
 ```
 Change in config.json:
 * set "[gpio_send]" to the GPIO that you use to send
@@ -40,11 +35,11 @@ Change in config.json:
 Start direct
 -----
 ```bash
-/opt/RPi-433outlets/outlet.py A on
+/opt/RPi-out433/outlet.py A on
 ```
 
 Start service
 -----
 ```bash
-/opt/RPi-433outlets/service.py
+/opt/RPi-out433/service.py
 ```

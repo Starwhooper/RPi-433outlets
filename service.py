@@ -19,8 +19,8 @@ def hourmin (timestamp,extramin=0):
  hm = int(datetime.utcfromtimestamp(timestamp).strftime('%H%M'))
  return(hm)
 
-def return_date(): return(datetime.date.today().strftime('%d. %b. \'%y'))
-def return_time(): return(time.strftime('%H:%M', time.localtime()))
+#def return_date(): return(datetime.date.today().strftime('%d. %b. \'%y'))
+#def return_time(): return(time.strftime('%H:%M', time.localtime()))
 
 try:
  with open(codefolder + '/config.json','r') as file:
@@ -46,8 +46,7 @@ sunrise = int(ow['sys']['sunrise'])
 sunrise_hm = int(hourmin(sunrise))
 sunset = int(ow['sys']['sunset'])
 sunset_hm = int(hourmin(sunset))
-now = int(datetime.now().timestamp())
-now_hm = int(hourmin(datetime.now().timestamp()))
+now_hm = int(time.strftime('%H%M', time.localtime()))
 
 try: htmlfile = open(cf["htmloutput"]["file"],'w')
 except: print('file ' + cf["htmloutput"]["file"] + ' not aviable or permission missed')
@@ -72,11 +71,8 @@ htmlstring += '<body>\n'
 htmlstring += '<h1><i class="fas fa-power-off" style="color:black"></i> Outlets</h1>\n'
 
 htmlstring += '<h2>Environment</h2>\n'
-htmlstring += '<p>sunrise: <i class="far fa-sun"></i> ' + str(sunrise_hm)[0:-2] + ':' + str(sunrise_hm)[2:] + ' ' + str(sunrise) + '</p>';
-htmlstring += '<p>sunset: <i class="far fa-moon"></i> ' + str(sunset_hm)[0:-2] + ':' + str(sunset_hm)[2:] + ' ' + str(sunset) + '</p>';
-htmlstring += '<p>now: <i class="far fa-clock"></i> ' + str(now_hm)[0:-2] + ':' + str(now_hm)[2:] + ' ' + str(now) + '</p>';
-
-htmlstring += '<h2>Outlets</h2>\n'
+htmlstring += '<p class="small">sunrise: <i class="far fa-sun"></i> ' + str(sunrise_hm)[0:-2] + ':' + str(sunrise_hm)[2:] + ' - sunset: <i class="far fa-moon"></i> ' + str(sunset_hm)[0:-2] + ':' + str(sunset_hm)[2:] + ' - now: <i class="far fa-clock"></i> ' + str(now_hm)[0:-2] + ':' + str(now_hm)[2:] + ' ' + '</p>';
+#htmlstring += '<h2>Outlets</h2>\n'
 htmlstring += '<table><tr><th>outlet</th><th>settings</th><th>status</th></tr>'
 
 for outlet in cf['outlets']:
